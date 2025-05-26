@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: find_my_coffee_api_development
+  user: postgres
+  password: postgres
+  host: localhost
+
+test:
+  <<: *default
+  database: find_my_coffee_api_test
+  user: postgres
+  password: postgres
+  host: localhost
+
+production:
+  <<: *default
+  database: find_my_coffee_api_production
+  username: find_my_coffee_api
+  password: <%= ENV["FIND_MY_COFFEE_API_DATABASE_PASSWORD"] %>
