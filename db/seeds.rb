@@ -1,9 +1,31 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'faker'
+
+puts "Cleaning up old data..."
+Rating.delete_all
+Store.delete_all
+
+puts "Creating stores..."
+
+stores = 5.times.map do
+  Store.create!(
+    name: Faker::Company.name,
+    address: Faker::Address.full_address,
+    google_place_id: Faker::Alphanumeric.alpha(number: 20),
+    lonlat: "POINT(#{Faker::Address.longitude} #{Faker::Address.latitude})"
+  )
+end
+
+puts "Creating ratings..."
+
+stores.each do |store|
+  rand(3..8).times do
+    Rating.create!(
+      store: store,
+      value: rand(1..5),
+      opinion: Faker::Lorem.sentence(word_count: 8),
+      user_name: Faker::Name.first_name
+    )
+  end
+end
+
+puts "Seeding completed successfully!"
