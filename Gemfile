@@ -9,6 +9,7 @@ gem "bootsnap", require: false
 gem 'activerecord-postgis-adapter'
 gem 'jbuilder'
 gem 'rest-client'
+gem 'rack-cors'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
